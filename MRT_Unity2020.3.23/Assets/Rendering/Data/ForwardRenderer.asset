@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36c7837b72b8a254ba012ddebfd80d66, type: 3}
-  m_Name: NewMyDrawObjectsFeature
+  m_Name: Render MRT
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: NewMyDrawObjectsFeature
+    passTag: Render MRT
     Event: 300
     filterSettings:
       RenderQueueType: 0
@@ -39,6 +39,19 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 60
+--- !u!114 &-3296887594393099311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a9805074bdc9148b6a9a4bcc304199, type: 3}
+  m_Name: Deferred Lighting
+  m_EditorClassIdentifier: 
+  m_Active: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,11 +62,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de640fe3d0db1804a85f9fc8f5cadab6, type: 3}
-  m_Name: UniversalRenderPipelineAsset_Renderer
+  m_Name: ForwardRenderer
   m_EditorClassIdentifier: 
   m_RendererFeatures:
   - {fileID: -6474971106890731034}
-  m_RendererFeatureMap: e631dc8a154824a6
+  - {fileID: -3296887594393099311}
+  m_RendererFeatureMap: e631dc8a154824a6d1a3ce57331a3fd2
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:

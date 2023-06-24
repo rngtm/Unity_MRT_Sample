@@ -3,23 +3,13 @@ using UnityEngine.Rendering.Universal;
 
 namespace UnityEngine.Experimental.Rendering.Universal
 {
-    static class ShaderPropertyName
-    {
-        public static readonly string MyColorTexture = "_MyColorTexture";
-        public static readonly string MyDepthTexture = "_MyDepthTexture";
-        public static readonly string MyNormalTexture = "_MyNormalTexture";
-    }
     static class ShaderPropertyId
     {
         public static readonly int MyColorTexture = Shader.PropertyToID("_MyColorTexture");
         public static readonly int MyDepthTexture = Shader.PropertyToID("_MyDepthTexture");
         public static readonly int MyNormalTexture = Shader.PropertyToID("_MyNormalTexture");
-    }
-
-    public enum RenderTargetId
-    {
-        Color = 0,
-        Normal = 1,
+        public static readonly int ColorTex = Shader.PropertyToID("_ColorTex");
+        public static readonly int NormalTex = Shader.PropertyToID("_NormalTex");
     }
 
     public static class MyRenderTargetBuffer
@@ -27,11 +17,9 @@ namespace UnityEngine.Experimental.Rendering.Universal
         private static bool isInitialize = false;
         
         public static RenderTargetIdentifier[] ColorAttachments;
-        public static RenderTargetHandle[] ColorHandles;
-        public static RenderTargetIdentifier DepthAttachment;
-        public static RenderTargetHandle DepthHandle;
-
-        private static int RenderTargetCount = 2;
+        public static RenderTargetIdentifier MyDepthTexture;
+        public static RenderTargetIdentifier MyColorTexture;
+        public static RenderTargetIdentifier MyNormalTexture;
   
         public static void Initialize()
         {
@@ -42,15 +30,16 @@ namespace UnityEngine.Experimental.Rendering.Universal
 
             isInitialize = true;
 
-            ColorAttachments = new RenderTargetIdentifier[RenderTargetCount];
-            ColorAttachments[(int)RenderTargetId.Color] = new RenderTargetIdentifier(ShaderPropertyId.MyColorTexture);
-            ColorAttachments[(int)RenderTargetId.Normal] = new RenderTargetIdentifier(ShaderPropertyId.MyNormalTexture);
-            DepthAttachment = new RenderTargetIdentifier(ShaderPropertyId.MyDepthTexture);
-            
-            ColorHandles = new RenderTargetHandle[RenderTargetCount];
-            ColorHandles[(int)RenderTargetId.Color] = new RenderTargetHandle(ColorAttachments[(int)RenderTargetId.Color]);
-            ColorHandles[(int)RenderTargetId.Normal] = new RenderTargetHandle(ColorAttachments[(int)RenderTargetId.Normal]);
-            DepthHandle = new RenderTargetHandle(DepthAttachment);
+            MyColorTexture = new RenderTargetIdentifier(ShaderPropertyId.MyColorTexture);
+            MyNormalTexture = new RenderTargetIdentifier(ShaderPropertyId.MyNormalTexture);
+            MyDepthTexture = new RenderTargetIdentifier(ShaderPropertyId.MyDepthTexture);
+
+            ColorAttachments = new RenderTargetIdentifier[]
+            {
+                MyColorTexture,
+                MyNormalTexture,
+            };
+
         }
 
         public static void Dispose()
@@ -131,7 +120,7 @@ namespace UnityEngine.Experimental.Rendering.Universal
         
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            renderObjectsPass.ConfigureTarget(MyRenderTargetBuffer.ColorAttachments, MyRenderTargetBuffer.DepthAttachment);
+            renderObjectsPass.ConfigureTarget(MyRenderTargetBuffer.ColorAttachments, MyRenderTargetBuffer.MyDepthTexture);
             renderObjectsPass.ConfigureClear(ClearFlag.All, Color.clear);
 
             renderer.EnqueuePass(setupRenderPass);
