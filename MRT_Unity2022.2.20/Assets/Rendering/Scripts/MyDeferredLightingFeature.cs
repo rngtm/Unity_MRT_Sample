@@ -17,7 +17,7 @@ public class MyDeferredLightingFeature : ScriptableRendererFeature
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             var cmd = CommandBufferPool.Get("My Deferred Lighting");
-            var dest = renderingData.cameraData.renderer.cameraColorTargetHandle;
+            var cameraColorTargetHandle = renderingData.cameraData.renderer.cameraColorTargetHandle;
             
             // シェーダーの _ColorTex へ、テクスチャ _MyColorTexture を設定する
             cmd.SetGlobalTexture(ShaderPropertyId.ColorTex, MyRenderTargetBuffer.MyColorTexture);
@@ -25,7 +25,7 @@ public class MyDeferredLightingFeature : ScriptableRendererFeature
             // シェーダーの _NormalTex へ、テクスチャ _MyNormalTexture を設定する
             cmd.SetGlobalTexture(ShaderPropertyId.NormalTex, MyRenderTargetBuffer.MyNormalTexture);
                 
-            cmd.Blit(null, dest, _material);
+            cmd.Blit(null, cameraColorTargetHandle, _material);
             context.ExecuteCommandBuffer(cmd);
             
             CommandBufferPool.Release(cmd);
