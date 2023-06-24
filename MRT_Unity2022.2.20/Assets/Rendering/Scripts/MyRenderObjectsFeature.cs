@@ -13,9 +13,13 @@ namespace UnityEngine.Experimental.Rendering.Universal
     {
         private static bool isInitialize = false;
         
-        public static RTHandle MyColorTexture { get; private set; }
-        public static RTHandle MyDepthTexture { get; private set; }
-        public static RTHandle MyNormalTexture { get; private set; }
+        static RTHandle m_MyColorTexture;
+        static RTHandle m_MyDepthTexture;
+        static RTHandle m_MyNormalTexture;
+
+        public static RTHandle MyColorTexture => m_MyColorTexture;
+        public static RTHandle MyDepthTexture => m_MyDepthTexture;
+        public static RTHandle MyNormalTexture => m_MyNormalTexture;
         
         public static RTHandle[] ColorAttachments { get; private set; }
         public static RTHandle DepthAttachment { get; private set; }
@@ -29,12 +33,17 @@ namespace UnityEngine.Experimental.Rendering.Universal
             isInitialize = true;
             
             Debug.Log("Alloc RTHandle");
+            
             var colorDesc = new RenderTextureDescriptor(desc.width, desc.height, RenderTextureFormat.ARGB32, 0);
             var depthDesc = new RenderTextureDescriptor(desc.width, desc.height, RenderTextureFormat.Depth, 8);
             var normalDesc = new RenderTextureDescriptor(desc.width, desc.height, RenderTextureFormat.ARGB32, 0);
-            MyColorTexture = RTHandles.Alloc(colorDesc, name: "_MyColorTexture");
-            MyDepthTexture = RTHandles.Alloc(depthDesc, name: "_MyDepthTexture");
-            MyNormalTexture = RTHandles.Alloc(normalDesc, name: "_MyNormalTexture");
+
+            RenderingUtils.ReAllocateIfNeeded(ref m_MyColorTexture, colorDesc, FilterMode.Point, TextureWrapMode.Clamp,
+                name: "_MyColorTexture");
+            RenderingUtils.ReAllocateIfNeeded(ref m_MyDepthTexture, depthDesc, FilterMode.Point, TextureWrapMode.Clamp,
+                name: "_MyDepthTexture");
+            RenderingUtils.ReAllocateIfNeeded(ref m_MyNormalTexture, normalDesc, FilterMode.Point, TextureWrapMode.Clamp,
+                name: "_MyNormalTexture");
             
             ColorAttachments = new[] { MyColorTexture, MyNormalTexture };
             DepthAttachment = MyDepthTexture;
@@ -51,14 +60,14 @@ namespace UnityEngine.Experimental.Rendering.Universal
             DepthAttachment = null;
             ColorAttachments = null;
             
-            RTHandles.Release(MyNormalTexture);
-            MyNormalTexture = null;
+            RTHandles.Release(m_MyNormalTexture);
+            m_MyNormalTexture = null;
 
             RTHandles.Release(MyDepthTexture);
-            MyDepthTexture = null;
+            m_MyDepthTexture = null;
 
             RTHandles.Release(MyColorTexture);
-            MyColorTexture = null;
+            m_MyColorTexture = null;
 
             isInitialize = false;
         }
