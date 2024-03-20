@@ -60,12 +60,12 @@ namespace MyRendering
             m_RenderStateBlock.mask |= RenderStateMask.Blend;
             m_RenderStateBlock.blendState = new BlendState(separateMRTBlend: true)
             {
-                // RT0 : シェーダー側のブレンドモードを使用
+                // RT0 : Blend One Zero
                 blendState0 = RenderTargetBlendState.defaultValue,
 
-                // RT1 : Blend One One で上書き
+                // RT1 : Blend One One
                 blendState1 = new RenderTargetBlendState(
-                    sourceAlphaBlendMode: BlendMode.One,
+                    sourceColorBlendMode: BlendMode.One,
                     destinationColorBlendMode: BlendMode.One)
             };
         }
