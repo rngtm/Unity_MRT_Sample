@@ -7,8 +7,6 @@ namespace MyRendering
     public class MyRenderObjects : ScriptableRendererFeature
     {
         MyRenderObjectsPass renderObjectsPass;
-        
-        private RenderTargetIdentifier[] ColorAttachments;
 
         public override void Create()
         {
