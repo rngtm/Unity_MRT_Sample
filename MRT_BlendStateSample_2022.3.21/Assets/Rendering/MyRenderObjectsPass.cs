@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Rendering.Universal;
@@ -19,7 +17,6 @@ namespace MyRendering
 
         List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
         RenderStateBlock m_RenderStateBlock;
-        NativeArray<RenderStateBlock> m_RenderStateBlocks;
 
         private const int TextureCount = 2;
         private static readonly string DepthTextureName = "_CameraDepthTexture";

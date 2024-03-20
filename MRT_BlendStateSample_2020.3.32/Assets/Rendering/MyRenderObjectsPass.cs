@@ -12,18 +12,14 @@ namespace MyRendering
         RenderQueueType renderQueueType;
         FilteringSettings m_FilteringSettings;
         ProfilingSampler m_ProfilingSampler;
-
         public Material overrideMaterial { get; set; }
         public int overrideMaterialPassIndex { get; set; }
 
         List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
         RenderStateBlock m_RenderStateBlock;
-        NativeArray<RenderStateBlock> m_RenderStateBlocks;
 
         private const int TextureCount = 2;
-
         private static readonly string DepthTextureName = "_CameraDepthTexture";
-
         private static readonly string[] ColorTextureNames = new string[TextureCount]
         {
             "_ColorTexture1",
